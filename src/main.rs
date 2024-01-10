@@ -206,7 +206,7 @@ fn parse_todos(file: &File) -> Result<Vec<TodoItem>, ParseTodosError> {
             match l {
                 Err(e) => Err(ParseTodosError::from(e)),
                 Ok(line) => {
-                    let r = Regex::new(r"\- \[([ X])\] (.+)")?;
+                    let r = Regex::new(r"\- \[([ X])\] (.*)")?;
                     let caps = r
                         .captures(&line)
                         .ok_or(ParseTodosError::InvalidSyntax(line.to_string()))?;
