@@ -192,7 +192,7 @@ fn main() {
         Command::HELP => panic!("This should have been handled earlier"),
     }
 
-    if let Err(e) = wirte_todos_to_file(&file_name, &todos) {
+    if let Err(e) = write_todos_to_file(&file_name, &todos) {
         eprintln!("Error writing to file: {}", e.to_string());
         return;
     }
@@ -230,7 +230,7 @@ fn parse_todos(file: &File) -> Result<Vec<TodoItem>, ParseTodosError> {
         .collect()
 }
 
-fn wirte_todos_to_file(file_name: &String, todos: &Vec<TodoItem>) -> io::Result<()> {
+fn write_todos_to_file(file_name: &String, todos: &Vec<TodoItem>) -> io::Result<()> {
     let mut file = File::options()
         .write(true)
         .truncate(true)
