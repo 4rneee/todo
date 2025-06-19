@@ -47,6 +47,7 @@ enum Command {
     DONE,
     UNDO,
     REMOVE,
+    CLEAR,
     HELP,
 }
 
@@ -62,6 +63,7 @@ fn main() {
             "done" => Command::DONE,
             "undo" => Command::UNDO,
             "remove" => Command::REMOVE,
+            "clear" => Command::CLEAR,
             "help" | "-h" | "--help" => Command::HELP,
             _ => {
                 eprintln!(
@@ -81,6 +83,7 @@ fn main() {
         println!("  done [item ids]: mark todo items as done");
         println!("  undo [item ids]: unmark todo items as done");
         println!("  remove [item ids]: remove todo items from the list");
+        println!("  clear: remove all items that are marked as done");
         println!("  help: print this help message");
         println!("\nBy default the items are stored in $HOME/.todo.md");
         println!("This can be changed by setting the environment variable TODO_FILE");
@@ -183,12 +186,15 @@ fn main() {
                     Command::REMOVE => {
                         todos.remove(id - 1);
                     }
-                    Command::LIST | Command::ADD | Command::HELP => {
+                    Command::LIST | Command::ADD | Command::CLEAR | Command::HELP => {
                         panic!("Should not be possible")
                     }
                 }
             }
         }
+        Command::CLEAR => {
+            todos.retain(|item| !item.done);
+        },
         Command::HELP => panic!("This should have been handled earlier"),
     }
 
